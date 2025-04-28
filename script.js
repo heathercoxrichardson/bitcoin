@@ -1,7 +1,7 @@
 // Login Credentials
 const validCredentials = {
-    username: "1",
-    password: "1"
+    username: "scottjagelfulmer@icloud.com",
+    password: "1955Scott"
 };
 
 // Crypto data with logos
